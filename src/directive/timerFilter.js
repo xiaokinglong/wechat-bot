@@ -7,16 +7,17 @@ function timerFilter(params) {
     return params;
   }
 }
-function workEndTime() {
-  const nowDay = dayjs().format("YYYY-MM-DD");
-  const endDate = nowDay + " 18:00:00";
-  var nowTime = Date.now();
-  // var nowTime = new Date().getTime();
-  //获取当天 23:59
-  var endTime = new Date(endDate);
-  console.log({ endTime, nowDay });
-  //获取时间差
-  var timediff = Math.round((endTime - nowTime) / 1000);
+function workEndTime(message) {
+  const currentDay = dayjs().format("YYYY-MM-DD") + ' 18:00:00' ;
+  const nowTime = new Date().getTime();
+  const endTime = new Date(currentDay).getTime();
+  // note 时间差
+  const timediff = Math.round((endTime - nowTime) / 1000);
+  // 小于等于值  <=
+  if (timediff <= 0) {
+    message.say("还不下班呢,在干啥呢");
+    return false
+  }
   //获取还剩多少小时
   var hour =
     parseInt((timediff / 3600) % 24) + parseInt(timediff / 3600 / 24) * 24;
@@ -29,8 +30,9 @@ function workEndTime() {
   minute = timerFilter(minute);
   second = timerFilter(second);
 
-  console.log(hour + "时" + minute + "分" + second + "秒");
-  // setTimeout(showLeft, 1000);
-}
-module.exports = workEndTime
+  const sayWorld = `距离下班时间还有${hour}时${minute}分${second}秒`;
 
+  console.log(sayWorld);
+  message.say(sayWorld);
+}
+module.exports = workEndTime;

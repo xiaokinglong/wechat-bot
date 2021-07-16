@@ -1,6 +1,6 @@
 const { Wechaty } = require("wechaty");
 const config = require("./config/index.js");
-const workEndTime = require('./directive/timerFilter')
+const messageProcessing = require('./message/index.js')
 const name = "wechat-puppet-wechat";
 let bot = "";
 bot = new Wechaty({
@@ -39,16 +39,18 @@ function onLogout(user) {
   console.log(`小助手${user} 已经登出`);
 }
 
-bot.on("scan", onScan);
-bot.on("login", onLogin);
-bot.on("logout", onLogout);
-bot.on("message", (message) => {
-  console.log(message);
-  const text = message.payload.text;
-  const roomId = message.payload.roomId;
-  console.log(`Message: ${text}`);
-});
-bot
-  .start()
-  .then(() => console.log("开始登陆微信"))
-  .catch((e) => console.error(e));
+
+
+
+function main() {
+  bot.on("scan", onScan);
+  bot.on("login", onLogin);
+  bot.on("logout", onLogout);
+  bot.on("message", messageProcessing);
+  bot
+    .start()
+    .then(() => console.log("开始登陆微信"))
+    .catch((e) => console.error(e));
+}
+
+module.exports = main
