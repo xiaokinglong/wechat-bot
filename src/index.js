@@ -1,6 +1,6 @@
 const { Wechaty } = require("wechaty");
 const config = require("./config/index.js");
-const messageProcessing = require('./message/index.js')
+const messageProcessing = require("./message/index.js");
 const name = "wechat-puppet-wechat";
 let bot = "";
 bot = new Wechaty({
@@ -30,7 +30,7 @@ async function onLogin(user) {
   if (config.AUTOREPLY) {
     console.log(`已开启机器人自动聊天模式`);
   }
-  // 登陆后创建定时任务
+  // note 登陆后创建定时任务
   await initDay();
 }
 
@@ -38,10 +38,6 @@ async function onLogin(user) {
 function onLogout(user) {
   console.log(`小助手${user} 已经登出`);
 }
-
-
-
-
 function main() {
   bot.on("scan", onScan);
   bot.on("login", onLogin);
@@ -53,4 +49,4 @@ function main() {
     .catch((e) => console.error(e));
 }
 
-module.exports = main
+module.exports = main;
